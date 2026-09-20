@@ -1,0 +1,26 @@
+<Window
+    x:Class="ReqwaColors.Views.MinimizeNotificationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border x:Name="Root"
+            Background="#E612151D"
+            BorderBrush="{ThemeResource BorderStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="14,12"
+            Tapped="OnTapped"
+            PointerEntered="OnPointerEntered"
+            PointerExited="OnPointerExited">
+        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <Ellipse Width="8" Height="8" Fill="{ThemeResource BrightPurpleBrush}"
+                     VerticalAlignment="Center" />
+            <StackPanel Spacing="2" VerticalAlignment="Center">
+                <TextBlock Text="Reqwa Colors" FontSize="13" FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextPrimaryBrush}" />
+                <TextBlock Text="Minimized to tray — click to restore" FontSize="12"
+                           Foreground="{ThemeResource TextSecondaryBrush}" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

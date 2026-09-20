@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ReqwaColors": {
+      "commandName": "Project"
+    },
+    "ReqwaColors (minimized to tray)": {
+      "commandName": "Project",
+      "commandLineArgs": "--minimized"
+    }
+  }
+}

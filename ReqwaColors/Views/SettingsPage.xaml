@@ -1,0 +1,73 @@
+<UserControl
+    x:Class="ReqwaColors.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel MaxWidth="640" HorizontalAlignment="Left" Spacing="24">
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Settings" Style="{StaticResource PageTitleStyle}" />
+            <TextBlock Text="Configure how Reqwa Colors behaves."
+                       Style="{StaticResource PageSubtitleStyle}" />
+        </StackPanel>
+
+        <!-- General -->
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="GENERAL" Style="{StaticResource CardTitleStyle}" />
+                <CheckBox Content="Start with Windows"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.StartWithWindows, Mode=TwoWay}" />
+                <CheckBox Content="Minimize to system tray when closed"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.MinimizeToTray, Mode=TwoWay}" />
+                <CheckBox Content="Start minimized to tray"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.StartMinimized, Mode=TwoWay}" />
+                <CheckBox Content="Always stay on top"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.AlwaysOnTop, Mode=TwoWay}" />
+                <TextBlock Text="Press Insert anywhere to show or hide the window."
+                           Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <!-- Behavior -->
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="BEHAVIOR" Style="{StaticResource CardTitleStyle}" />
+                <CheckBox Content="Apply last colors on startup"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.ApplyLastColorsOnStartup, Mode=TwoWay}" />
+                <CheckBox Content="Restore default colors on exit"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.RestoreOnExit, Mode=TwoWay}" />
+                <CheckBox Content="Notify me when the app is minimized to the tray"
+                          IsChecked="{x:Bind Vm.SettingsPage.Settings.NotifyOnMinimize, Mode=TwoWay}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Advanced -->
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="ADVANCED" Style="{StaticResource CardTitleStyle}" />
+                <Button Content="Reset application settings"
+                        Style="{StaticResource GhostButtonStyle}"
+                        HorizontalAlignment="Left"
+                        Command="{x:Bind Vm.SettingsPage.ResetSettingsCommand}" />
+                <TextBlock Style="{StaticResource MutedTextStyle}"
+                           Text="{x:Bind Vm.SettingsPage.DataDirectory, Mode=OneTime}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Session -->
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="SESSION" Style="{StaticResource CardTitleStyle}" />
+                <TextBlock Text="Closing the window keeps Reqwa Colors running in the tray. Quit to exit completely."
+                           Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap" />
+                <Button Content="Quit"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        HorizontalAlignment="Left"
+                        Command="{x:Bind Vm.SettingsPage.ExitCommand}" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

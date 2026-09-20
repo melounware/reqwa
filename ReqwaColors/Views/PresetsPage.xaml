@@ -1,0 +1,171 @@
+<UserControl
+    x:Class="ReqwaColors.Views.PresetsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ReqwaColors.ViewModels"
+    mc:Ignorable="d">
+
+    <StackPanel MaxWidth="860" HorizontalAlignment="Left" Spacing="{StaticResource SpacingXL}">
+
+        <!-- Header -->
+        <StackPanel Spacing="4">
+            <TextBlock Text="Presets" Style="{StaticResource PageTitleStyle}" />
+            <TextBlock Text="One-click looks for games, movies and work."
+                       Style="{StaticResource PageSubtitleStyle}" />
+        </StackPanel>
+
+        <!-- Create / import -->
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Spacing="12">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="NewPresetBox"
+                             PlaceholderText="Name a preset from your current slider values…"
+                             Text="{x:Bind Vm.PresetsPage.NewPresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="32"
+                             Height="36"
+                             Padding="12,6"
+                             CornerRadius="{StaticResource ControlCorner}"
+                             Background="{ThemeResource AppBg2Brush}"
+                             BorderBrush="{ThemeResource BorderBrush}"
+                             Foreground="{ThemeResource TextPrimaryBrush}"
+                             VerticalContentAlignment="Center" />
+                    <Button Grid.Column="1" Content="Save Preset"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            MinWidth="110"
+                            Command="{x:Bind Vm.PresetsPage.CreateFromCurrentCommand}" />
+                </Grid>
+
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox PlaceholderText="Paste a shared preset code…"
+                             Text="{x:Bind Vm.PresetsPage.ImportCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Height="36"
+                             Padding="12,6"
+                             CornerRadius="{StaticResource ControlCorner}"
+                             Background="{ThemeResource AppBg2Brush}"
+                             BorderBrush="{ThemeResource BorderBrush}"
+                             Foreground="{ThemeResource TextPrimaryBrush}"
+                             VerticalContentAlignment="Center" />
+                    <Button Grid.Column="1" Content="Import"
+                            Style="{StaticResource GhostButtonStyle}"
+                            MinWidth="110"
+                            Command="{x:Bind Vm.PresetsPage.ImportFromCodeCommand}" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Preset cards -->
+        <GridView x:Name="PresetsGrid"
+                  ItemsSource="{x:Bind Vm.PresetsPage.Items}"
+                  SelectionMode="None"
+                  IsItemClickEnabled="False">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="MinWidth" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:PresetItemViewModel">
+                    <Border Width="300" Margin="0,0,12,12"
+                            Background="{ThemeResource PanelBrush}"
+                            BorderBrush="{ThemeResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource CardCorner}"
+                            Padding="18">
+                        <StackPanel Spacing="10">
+
+                            <!-- Name row -->
+                            <Grid Visibility="{x:Bind NameVisibility, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{x:Bind Name}" Style="{StaticResource CardTitleStyle}"
+                                               VerticalAlignment="Center" />
+                                    <Border Style="{StaticResource ChipBorderStyle}" VerticalAlignment="Center"
+                                            Visibility="{x:Bind ActiveVisibility, Mode=OneWay}">
+                                        <TextBlock Text="Applied" FontSize="10.5" FontWeight="SemiBold"
+                                                   Foreground="{ThemeResource LightPurpleBrush}" />
+                                    </Border>
+                                </StackPanel>
+                                <Button HorizontalAlignment="Right" VerticalAlignment="Top"
+                                        Content="⋯" FontSize="16"
+                                        Visibility="{x:Bind DeleteVisibility, Mode=OneTime}"
+                                        Style="{StaticResource AccentTextButtonStyle}">
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                            <MenuFlyoutItem Text="Share" Click="OnShareClicked" />
+                                            <MenuFlyoutItem Text="Rename" Click="OnRenameClicked" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem Text="Delete" Click="OnDeleteClicked">
+                                                <MenuFlyoutItem.Foreground>
+                                                    <SolidColorBrush Color="#F87171" />
+                                                </MenuFlyoutItem.Foreground>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </Grid>
+
+                            <!-- Rename editor -->
+                            <Grid Visibility="{x:Bind EditVisibility, Mode=OneWay}" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{x:Bind RenameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         MaxLength="32" Height="34" Padding="10,4"
+                                         CornerRadius="{StaticResource ControlCorner}"
+                                         Background="{ThemeResource AppBg2Brush}"
+                                         BorderBrush="{ThemeResource BorderBrush}"
+                                         Foreground="{ThemeResource TextPrimaryBrush}"
+                                         VerticalContentAlignment="Center" />
+                                <Button Grid.Column="1" Content="Save"
+                                        Style="{StaticResource GhostButtonStyle}"
+                                        Command="{x:Bind CommitRenameCommand}" />
+                            </Grid>
+
+                            <TextBlock Text="{x:Bind Description}" FontSize="12"
+                                       Foreground="{ThemeResource TextSecondaryBrush}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <Rectangle Height="1" Fill="{ThemeResource DividerBrush}" />
+                            <TextBlock Text="{x:Bind Summary}" FontSize="12"
+                                       Foreground="{ThemeResource TextMutedBrush}" />
+
+                            <!-- Actions -->
+                            <Button Content="Apply →"
+                                    Visibility="{x:Bind NameVisibility, Mode=OneWay}"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Command="{x:Bind ApplyCommand}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <!-- Empty state -->
+        <Border Style="{StaticResource SubPanelBorderStyle}"
+                Visibility="{x:Bind Vm.PresetsPage.EmptyVisibility, Mode=OneWay}">
+            <StackPanel Spacing="6" HorizontalAlignment="Center">
+                <TextBlock Text="No presets yet" HorizontalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="14"
+                           Foreground="{ThemeResource TextPrimaryBrush}" />
+                <TextBlock Text="Set up your look on the Main page, then save it above — or paste a shared code."
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource MutedTextStyle}" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

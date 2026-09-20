@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Single build output path: everything lands in ./x64 at the repo root.
+         The runnable app is directly at x64/ReqwaColors.exe; intermediates
+         stay under x64/obj so nothing else is written next to the sources. -->
+    <OutputPath>$(MSBuildThisFileDirectory)x64\</OutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)x64\obj\</BaseIntermediateOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GeneratePathProperty>false</GeneratePathProperty>
+  </PropertyGroup>
+
+</Project>
